@@ -27,7 +27,8 @@ import com.google.gwt.user.client.ui.ToggleButton;
 /**
  * Entry point classes define <code>onModuleLoad()</code>.
  */
-public class Site implements EntryPoint, AnimationReadyHandler, SceneLoadingHandler, Context3dErrorHandler
+public class Site implements EntryPoint, 
+	AnimationReadyHandler, SceneLoadingHandler, Context3dErrorHandler, ResizeHandler
 {
 	public interface SiteResources extends ClientBundle
 	{
@@ -60,13 +61,6 @@ public class Site implements EntryPoint, AnimationReadyHandler, SceneLoadingHand
 		TerrainDynamic scene = new TerrainDynamic();
 		renderingPanel = new RenderingPanel();
 		RootPanel.get("animation").add(renderingPanel);
-		Window.addResizeHandler(new ResizeHandler() {
-			@Override
-			public void onResize(ResizeEvent event) {
-				renderingPanel.onResize();
-
-			}
-		});
 
 		// Background color
 		renderingPanel.setBackground(0x111111);
@@ -112,7 +106,8 @@ public class Site implements EntryPoint, AnimationReadyHandler, SceneLoadingHand
 	{
 		if(event.isLoaded())
 		{
-			infoText.setText("Your browser supports WebGL!");			
+			infoText.setText("Your browser supports WebGL!");	
+			Window.addResizeHandler(this);
 		}
 		else
 		{
@@ -125,5 +120,11 @@ public class Site implements EntryPoint, AnimationReadyHandler, SceneLoadingHand
 	{
 		infoText.setText("Your browser does not support WebGL.");
 		RootPanel.get("animation").remove(renderingPanel);
+	}
+	
+	@Override
+	public void onResize(ResizeEvent event) {
+		renderingPanel.onResize();
+
 	}
 }
