@@ -11,13 +11,13 @@ import thothbot.parallax.core.client.events.SceneLoadingHandler;
 
 import com.google.gwt.core.client.EntryPoint;
 import com.google.gwt.core.client.GWT;
+import com.google.gwt.core.client.Scheduler;
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.event.logical.shared.ResizeEvent;
 import com.google.gwt.event.logical.shared.ResizeHandler;
 import com.google.gwt.resources.client.ClientBundle;
 import com.google.gwt.resources.client.ImageResource;
-import com.google.gwt.user.client.Timer;
 import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.ui.FlowPanel;
 import com.google.gwt.user.client.ui.Image;
@@ -29,7 +29,7 @@ import com.google.gwt.user.client.ui.ToggleButton;
  * Entry point classes define <code>onModuleLoad()</code>.
  */
 public class Site implements EntryPoint, 
-	AnimationReadyHandler, SceneLoadingHandler, Context3dErrorHandler
+	AnimationReadyHandler, SceneLoadingHandler, Context3dErrorHandler, ResizeHandler
 {
 	public interface SiteResources extends ClientBundle
 	{
@@ -48,8 +48,6 @@ public class Site implements EntryPoint,
 	private ToggleButton animationSwitch;
 	private Label infoText;
 	
-	Timer resizeTimer;
-
 	/**
 	 * This is the entry point method.
 	 */
@@ -77,21 +75,6 @@ public class Site implements EntryPoint,
 		RootPanel.get("animationPanel").add(infoPanel);
 		infoPanel.add(animationSwitch);
 		infoPanel.add(infoText);
-		
-		resizeTimer = new Timer() {  
-			@Override
-			public void run() {
-				renderingPanel.onResize();
-			}
-		};
-		
-		Window.addResizeHandler(new ResizeHandler() {
-			
-			@Override
-			public void onResize(ResizeEvent event) {
-				 resizeTimer.schedule(250);
-			}
-		});
 	}
 	
 	/**
@@ -125,6 +108,7 @@ public class Site implements EntryPoint,
 		if(event.isLoaded())
 		{
 			infoText.setText("Your browser supports WebGL!");	
+			Window.addResizeHandler(this);
 		}
 		else
 		{
@@ -137,5 +121,17 @@ public class Site implements EntryPoint,
 	{
 		infoText.setText("Your browser does not support WebGL.");
 		RootPanel.get("animation").remove(renderingPanel);
+	}
+	
+	@Override
+	public void onResize(ResizeEvent event) 
+	{
+		Scheduler.get().scheduleDeferred(new Scheduler.ScheduledCommand() {
+			@Override
+			public void execute() 
+			{
+				renderingPanel.onResize();
+			}
+		});
 	}
 }
