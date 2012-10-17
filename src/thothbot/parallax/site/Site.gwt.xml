@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<module rename-to='site'>
+  <inherits name='com.google.gwt.user.User'/>
+  <inherits name='thothbot.parallax.core.Core'/>
+  <inherits name="thothbot.parallax.plugins.postprocessing.Postprocessing"/>
+  <inherits name="thothbot.parallax.loader.Loader"/>
+
+  <!--   Loggin -->
+  <inherits name="com.google.gwt.logging.Logging"/>
+  <set-property name="gwt.logging.enabled" value="TRUE"/> 
+  <set-property name="gwt.logging.logLevel" value="ALL"/>
+
+  <set-property name="gwt.logging.consoleHandler" value="DISABLED" />
+  <set-property name="gwt.logging.popupHandler" value="DISABLED" />
+  
+  <!-- Enable debug ID. -->
+  <inherits name="com.google.gwt.user.Debug"/>
+  <set-property name="gwt.enableDebugId" value="true"/> 
+  
+  <entry-point class='thothbot.parallax.site.client.Site'/>
+
+  <source path='client'/>
+
+</module>

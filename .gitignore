@@ -1,0 +1,12 @@
+/.gwt
+/.gwt-tmp
+/gwt-unitCache
+/src-core
+/.settings
+/war/site
+/war/genfilesforspeedtracer
+/war/WEB-INF/deploy
+/war/WEB-INF/classes
+Thumbs.db
+.project
+.classpath
