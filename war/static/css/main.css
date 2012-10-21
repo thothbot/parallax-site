@@ -176,7 +176,7 @@ section#features {
 	height: 520px;
 }
 
-section#features div#info {
+section#features .info {
 	display: block;
 	float: left;
 	width: 250px;
